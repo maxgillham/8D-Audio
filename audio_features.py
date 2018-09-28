@@ -47,4 +47,3 @@ if __name__ == '__main__':
     wav = rotate_left_and_right(wav, sampling_rate)
     save_song('yay_for_dsp_and_python.wav', wav, sampling_rate)
 
-      
