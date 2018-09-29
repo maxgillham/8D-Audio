@@ -34,8 +34,8 @@ def rotate_left_and_right(wav, sampling_rate):
     length = wav.shape[1]
     #manipulating amplitude by sin function for left channel and cos for right
     for i in range(length):
-        wav[0, i] = wav[0, i]/(5*sin(i/(sampling_rate*pi/2))+10)
-        wav[1, i] = wav[1, i]/(5*cos(i/(sampling_rate*pi/2) + sampling_rate/4)+10)
+        wav[0, i] = wav[:, i]/(5*sin(i/(sampling_rate*pi/2))+10)
+        wav[1, i] = wav[:, i]/(5*cos(i/(sampling_rate*pi/2) + sampling_rate/4)+10)
     return wav
 
 if __name__ == '__main__':
@@ -46,4 +46,3 @@ if __name__ == '__main__':
     os.chdir(path + '/sample_output')
     wav = rotate_left_and_right(wav, sampling_rate)
     save_song('yay_for_dsp_and_python.wav', wav, sampling_rate)
-
