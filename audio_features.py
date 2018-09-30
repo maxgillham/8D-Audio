@@ -44,6 +44,7 @@ def rotate_left_and_right(wav_mono, wav_stereo, sampling_rate):
         wav_stereo[1, i] = wav_mono[i]/(6*sin(i/(sampling_rate*pi/4)+sampling_rate*pi/2)+10)
     return wav_stereo
 
+
 def plot_stereo_balance(wav_1, wav_2):
     length = len(wav_1[0])
     y_left_1 = []
@@ -65,7 +66,6 @@ def plot_stereo_balance(wav_1, wav_2):
     plt.scatter(x, y_right_2, marker='.', c='k')
     plt.show()
     return
-
 
 if __name__ == '__main__':
     os.chdir(path + '/sample_audio')
