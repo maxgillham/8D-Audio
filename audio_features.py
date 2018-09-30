@@ -1,5 +1,6 @@
 import librosa
 import os
+import matplotlib.pyplot as plt
 
 from math import *
 
@@ -22,6 +23,7 @@ def song_features(file_name):
     tempo, beat_frames = librosa.beat.beat_track(y=wav_stereo[0], sr=sampling_rate)
 
     return wav_mono, wav_stereo, sampling_rate, tempo
+
 '''
 Just saves the time series as a wav file
 '''
@@ -38,15 +40,42 @@ def rotate_left_and_right(wav_mono, wav_stereo, sampling_rate):
     length = wav_mono.shape[0]
     #manipulating amplitude by sin function for left channel and cos for right
     for i in range(length):
-        wav_stereo[0, i] = wav_mono[i]/(6*sin(i/(sampling_rate*pi/2))+10)
-        wav_stereo[1, i] = wav_mono[i]/(6*cos(i/(sampling_rate*pi/2) + sampling_rate)+10)
+        wav_stereo[0, i] = wav_mono[i]/(6*sin(i/(sampling_rate*pi/4))+10)
+        wav_stereo[1, i] = wav_mono[i]/(6*sin(i/(sampling_rate*pi/4)+sampling_rate*pi/2)+10)
     return wav_stereo
+
+def plot_stereo_balance(wav_1, wav_2):
+    length = len(wav_1[0])
+    y_left_1 = []
+    y_left_2 = []
+    y_right_1 = []
+    y_right_2 = []
+    x = []
+    for i in range(length):
+        x.append(i)
+        y_left_1.append(wav_1[0, i])
+        y_right_1.append(wav_1[1, i])
+        y_left_2.append(wav_2[0, i])
+        y_right_2.append(wav_2[1, i])
+    plt.subplot(121)
+    plt.scatter(x, y_left_1, marker='.', c='b')
+    plt.scatter(x, y_right_1, marker='.', c='g')
+    plt.subplot(122)
+    plt.scatter(x, y_left_2, marker='.', c='r')
+    plt.scatter(x, y_right_2, marker='.', c='k')
+    plt.show()
+    return
+
 
 if __name__ == '__main__':
     os.chdir(path + '/sample_audio')
-    file_name = os.listdir()
-    for file in file_name:
-        wav_mono, wav_stereo, sampling_rate, tempo = song_features(file)
-    os.chdir(path + '/sample_output')
-    wav = rotate_left_and_right(wav_mono, wav_stereo, sampling_rate)
-    save_song('yay_for_dsp_and_python.wav', wav, sampling_rate)
+    #file_name = os.listdir()
+
+    wav_mono_1, wav_stereo_1, sampling_rate_1, tempo_1 = song_features('sweaty.wav')
+    wav_1 = rotate_left_and_right(wav_mono_1, wav_stereo_1, sampling_rate_1)
+
+    wav_mono_2, wav_stereo_2, sampling_rate_2, tempo_2 = song_features('sweaty_compare.wav')
+
+    plot_stereo_balance(wav_1, wav_stereo_2)
+    #os.chdir(path + '/sample_output')
+    #save_song('yay_for_sweat.wav', wav, sampling_rate)
