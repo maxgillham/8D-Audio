@@ -41,7 +41,7 @@ def rotate_left_and_right(wav_mono, wav_stereo, sampling_rate):
         wav_stereo[0, i] = wav_mono[i]/(6*sin(i/(sampling_rate*pi/2))+10)
         wav_stereo[1, i] = wav_mono[i]/(6*cos(i/(sampling_rate*pi/2) + sampling_rate)+10)
     return wav_stereo
-
+  
 if __name__ == '__main__':
     os.chdir(path + '/sample_audio')
     file_name = os.listdir()
