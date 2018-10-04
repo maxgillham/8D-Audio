@@ -9,5 +9,5 @@ Despite the unconventional name, I thought this was pretty neat, so I have decid
 At this point, the only dependancy is [Librosa](https://librosa.github.io/librosa/index.html). You can download using pip,  
 `pip install librosa`  
 The python file assumes you have the following directories  
-...* ./binary_audio/sample_audio
-...* ./binary_audio/sample_output
+* ./binary_audio/sample_audio
+* ./binary_audio/sample_output
