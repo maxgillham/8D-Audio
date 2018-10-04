@@ -9,7 +9,8 @@ At this point, the only dependancy is [Librosa](https://librosa.github.io/libros
 `pip install librosa`  
 The python file assumes you have the following directories  
 * ./binary_audio/sample_audio
-* ./binary_audio/sample_output
+* ./binary_audio/sample_output  
+
 Once you have the enviorment configured, you can play with what I have started by dropping a wav file in sample_audio and running `audio_features.py`.  The result will be in sample_output.  To download an example wav file to experiment with, you can use this likely illegal site, [Save Clip Bro](https://www.saveclipbro.com/).
 
 ## What needs to be done   
