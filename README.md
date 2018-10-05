@@ -2,7 +2,7 @@
 
 The inspiration for this project came from a series of YouTube videos I was
 shown, called [8D Audio](https://www.youtube.com/channel/UCrRpYEytIHGyDgNWO6VbHlQ/videos "Check it out!").  
-Despite the unconventional name, I thought this was pretty neat, so I have decided to make a series of signal processing methods to make any song "8D Audio".
+Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pretty neat. I think it would be cool to try and make a series of signal processing methods to make any song "8D Audio".
 
 ## Getting Started  
 At this point, the only dependancy is [Librosa](https://librosa.github.io/librosa/index.html). You can download using pip,  
@@ -16,5 +16,7 @@ Once you have the enviorment configured, you can play with what I have started b
 ## What needs to be done   
 Currently, this only spreads the audio from left to right channel.  The other properties I have noticed in this format of audio conversion that need to be introduced are  
 
-* Audio Elevation
-* Dry Reverb
+* Left and right channel swapping to match song breakpoints (currently just out of phase sin wavs)
+* Audio elevation swapping 
+* Dry reverb
+
