@@ -53,7 +53,6 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
     right_maintain = False
     i = 0
     while i < (length//(4*end_of_bar))*(4*end_of_bar):
-    #for i in range(0, (length//(2*end_of_bar))*(2*end_of_bar), end_of_bar):
         #if left channel flagged to go up
         if left_up:
             #turn left up and turn right down
