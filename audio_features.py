@@ -2,8 +2,10 @@ import librosa
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+#import sox
 
-from math import *
+#from pysndfx import AudioEffectsChain
+
 
 #global path variable for loading and saving
 path = os.getcwd()
@@ -43,8 +45,8 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
     #sample value that indicates transition
     end_of_bar = int((4/(tempo/60))*sampling_rate)
     #this is the rate the amplitude will increase by over
-    amplitude_down = np.linspace(1, .2, 4*end_of_bar)
-    amplitude_up = np.linspace(.2, 1, 4*end_of_bar)
+    amplitude_down = np.linspace(1, .15, 4*end_of_bar)
+    amplitude_up = np.linspace(.15, 1, 4*end_of_bar)
     down_value = .2
     #flag to determine if sound should be maintained
     left_up = True
@@ -88,6 +90,8 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
             right_maintain = False
             left_up = True
             i += end_of_bar
+    wav_stereo[0, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
+    wav_stereo[1, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
     return wav_stereo
 
 '''
