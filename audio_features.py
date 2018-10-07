@@ -119,9 +119,9 @@ if __name__ == '__main__':
     os.chdir(path + '/sample_audio')
     #file_name = os.listdir()
 
-    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('magic.wav')
+    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
 
     wav = rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo)
 
     os.chdir(path + '/sample_output')
-    save_song('new_magic.wav', wav, sampling_rate)
+    save_song('adventures_8D.wav', wav, sampling_rate)
