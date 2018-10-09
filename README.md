@@ -7,11 +7,11 @@ Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pret
 ## Getting Started  
 At this point, the only dependancies are [Librosa](https://librosa.github.io/librosa/index.html) and [Numpy](http://www.numpy.org/). I would reccomend configuring your enviorment using anaconda, you can download it [here](https://www.anaconda.com/download/).  
 
-The python file assumes you have the following directories, so either make them or change the path in the code.  
+`audio_features.py` takes files in the first directory and saves them in the seccond.
 * ./binary_audio/sample_audio
 * ./binary_audio/sample_output  
 
-Once you have the enviorment configured, you can play with what I have started by dropping a wav file in sample_audio and running `audio_features.py`.  The result will be in sample_output.  To download an example wav file to experiment with, you can use this likely illegal site, [Save Clip Bro](https://www.saveclipbro.com/).
+I have added an example file, it is a youtube not copy right song.  You can play with what I have started by dropping a wav file in sample_audio, or use the exapmple, and running `audio_features.py`.  The result will be in sample_output.  To download another wav file to experiment with, you can use this likely illegal site, [Save Clip Bro](https://www.saveclipbro.com/).
 
 ## What needs to be done   
 Currently, this only spreads the audio from left to right channel.  The other properties I have noticed in this format of audio conversion that need to be introduced are  
