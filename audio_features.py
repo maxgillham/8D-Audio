@@ -1,4 +1,5 @@
 import librosa
+import wave
 import os
 import matplotlib.pyplot as plt
 import numpy as np
@@ -47,11 +48,11 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
     #this is the rate the amplitude will increase by over
     amplitude_down = np.linspace(1, .15, 4*end_of_bar)
     amplitude_up = np.linspace(.15, 1, 4*end_of_bar)
-    down_value = .2
+    down_value = .15
     #flag to determine if sound should be maintained
-    left_up = True
+    left_up = False
     right_up = False
-    left_maintain = False
+    left_maintain = True
     right_maintain = False
     i = 0
     while i < (length//(4*end_of_bar))*(4*end_of_bar):
@@ -90,6 +91,7 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
             right_maintain = False
             left_up = True
             i += end_of_bar
+
     wav_stereo[0, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
     wav_stereo[1, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
     return wav_stereo
