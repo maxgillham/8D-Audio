@@ -5,7 +5,7 @@ shown, called [8D Audio](https://www.youtube.com/channel/UCrRpYEytIHGyDgNWO6VbHl
 Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pretty neat. I think it would be cool to try and make a series of signal processing methods to make any song "8D Audio".
 
 ## Getting Started  
-At this point, the only dependancies are [Librosa](https://librosa.github.io/librosa/index.html) and [Numpy](http://www.numpy.org/). I would reccomend configuring your enviorment using anaconda, you can download it [here](https://www.anaconda.com/download/).  
+At this point, the only dependancies are [Librosa](https://librosa.github.io/librosa/index.html) and [Numpy](http://www.numpy.org/). I would reccomend configuring your enviorment using anaconda, you can download it [here](https://www.anaconda.com/download/). Once Anaconda is installed, the only dependancy is Librosa, you can install it by `pip install librosa` using the pip in `anaconda3\Scripts`.  If you get an issue with llvmlite like I encountered, type `pip install --ignore-installed librosa`. 
 
 `audio_features.py` takes files in the first directory and saves them in the seccond.
 * ./binary_audio/sample_audio
