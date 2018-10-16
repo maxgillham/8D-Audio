@@ -3,6 +3,7 @@ import wave
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 #import sox
 
 #from pysndfx import AudioEffectsChain
@@ -52,8 +53,8 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
     #flag to determine if sound should be maintained
     left_up = False
     right_up = False
-    left_maintain = True
-    right_maintain = False
+    left_maintain = False
+    right_maintain = True
     i = 0
     while i < (length//(4*end_of_bar))*(4*end_of_bar):
         #if left channel flagged to go up
@@ -105,25 +106,38 @@ def plot_stereo_balance(wav_1, wav_2):
     wav_1 = np.array(wav_1)
     wav_2 = np.array(wav_2)
     #make x values for plotting, likely the same size
-    x_1 = np.arange(0,wav_1.shape[1])
-    x_2 = np.arange(0,wav_2.shape[1])
+    x_1 = np.arange(0, wav_1.shape[1])
+    x_2 = np.arange(0, wav_2.shape[1])
     #plot each channel
     plt.subplot(121)
-    plt.scatter(x_1, wav_1[0,:], marker='.', c='b')
-    plt.scatter(x_1, wav_1[1,:], marker='.', c='g')
+    plt.scatter(x_1, wav_1[0, :], marker='.', c='b')
+    plt.scatter(x_1, wav_1[1, :], marker='.', c='g')
     plt.subplot(122)
-    plt.scatter(x_2, wav_2[0,:], marker='.', c='r')
-    plt.scatter(x_2, wav_2[1,:], marker='.', c='k')
+    plt.scatter(x_2, wav_2[0, :], marker='.', c='r')
+    plt.scatter(x_2, wav_2[1, :], marker='.', c='k')
     plt.show()
     return
 
+'''
+Method of sin wav to figure out some channel positioning for left, right, up and down.
+I would not reccomend listening to this for fun, its very, very annoying
+'''
+def make_sigletone():
+    return .2*np.sin(164*np.linspace(0, 1000000, 1000000))
+
 if __name__ == '__main__':
-    os.chdir(path + '/sample_audio')
+    #os.chdir(path + '/sample_audio')
     #file_name = os.listdir()
 
-    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
+    #wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
 
-    wav = rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo)
+    #wav = rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo)
 
-    os.chdir(path + '/sample_output')
-    save_song('adventures_8D.wav', wav, sampling_rate)
+    wav_1 = make_sigletone()
+    wav_2 = make_sigletone()
+    print(wav_1.shape, '\n', wav_2.shape)
+    wav = np.column_stack((wav_1, wav_2))
+    print(wav.shape)
+
+    #os.chdir(path + '/sample_output')
+    #save_song('test.wav', wav, 22400)
