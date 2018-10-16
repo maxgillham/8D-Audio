@@ -42,21 +42,22 @@ to go up and down, opposite of eachother. Has a maintain
 period after rising chanel.  Transitions are made every
 4 beats. Returns as stereo.
 '''
-def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
+def rotate_left_right(wav_mono, wav_stereo, tempo):
     length = wav_mono.shape[0]
     #sample value that indicates transition
-    end_of_bar = int((4/(tempo/60))*sampling_rate)
+    #end_of_bar = int((4/(tempo/60))*sampling_rate)
+    end_of_bar = int((tempo / 60) * 1000)*4
     #this is the rate the amplitude will increase by over
-    amplitude_down = np.linspace(1, .15, 4*end_of_bar)
-    amplitude_up = np.linspace(.15, 1, 4*end_of_bar)
     down_value = .15
+    amplitude_down = np.linspace(1, down_value, 4*end_of_bar)
+    amplitude_up = np.linspace(down_value, 1, 4*end_of_bar)
     #flag to determine if sound should be maintained
     left_up = False
     right_up = False
     left_maintain = False
     right_maintain = True
     i = 0
-    while i < (length//(4*end_of_bar))*(4*end_of_bar):
+    while i < length - 4*end_of_bar:
         #if left channel flagged to go up
         if left_up:
             #turn left up and turn right down
@@ -80,7 +81,7 @@ def rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo):
         #if left channel flagged to stay constant
         elif left_maintain:
             wav_stereo[0, i:i+end_of_bar] = wav_mono[i:i+end_of_bar]
-            wav_stereo[1,i:i+end_of_bar] = wav_mono[i:i+end_of_bar]*down_value
+            wav_stereo[1, i:i+end_of_bar] = wav_mono[i:i+end_of_bar]*down_value
             left_maintain = False
             right_up = True
             i += end_of_bar
@@ -123,21 +124,16 @@ Method of sin wav to figure out some channel positioning for left, right, up and
 I would not reccomend listening to this for fun, its very, very annoying
 '''
 def make_sigletone():
-    return .2*np.sin(164*np.linspace(0, 1000000, 1000000))
+    return np.column_stack((.2*np.sin(164*np.linspace(0, 1000000, 1000000)), .2*np.sin(164*np.linspace(0, 1000000, 1000000)))).T
 
 if __name__ == '__main__':
-    #os.chdir(path + '/sample_audio')
-    #file_name = os.listdir()
+    os.chdir(path + '/sample_audio')
+    file_name = os.listdir()
 
-    #wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
+    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
+    #wav = make_sigletone()
 
-    #wav = rotate_left_right(wav_mono, wav_stereo, sampling_rate, tempo)
+    wav = rotate_left_right(wav_mono, wav_stereo, tempo)
 
-    wav_1 = make_sigletone()
-    wav_2 = make_sigletone()
-    print(wav_1.shape, '\n', wav_2.shape)
-    wav = np.column_stack((wav_1, wav_2))
-    print(wav.shape)
-
-    #os.chdir(path + '/sample_output')
-    #save_song('test.wav', wav, 22400)
+    os.chdir(path + '/sample_output')
+    save_song('sda.wav', wav, 22400)
