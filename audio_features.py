@@ -136,4 +136,4 @@ if __name__ == '__main__':
     wav = rotate_left_right(wav_mono, wav_stereo, tempo)
 
     os.chdir(path + '/sample_output')
-    save_song('sda.wav', wav, 22400)
+    save_song('adventures_8D.wav', wav, sampling_rate)
