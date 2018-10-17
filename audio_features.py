@@ -1,10 +1,8 @@
 import librosa
-import wave
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-import math
-#import sox
+import sox
 
 #from pysndfx import AudioEffectsChain
 
@@ -42,61 +40,68 @@ to go up and down, opposite of eachother. Has a maintain
 period after rising chanel.  Transitions are made every
 4 beats. Returns as stereo.
 '''
-def rotate_left_right(wav_mono, wav_stereo, tempo):
+def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
     length = wav_mono.shape[0]
     #sample value that indicates transition
-    #end_of_bar = int((4/(tempo/60))*sampling_rate)
-    end_of_bar = int((tempo / 60) * 1000)*4
+    end_of_beat = int((tempo / 60) * sampling_rate)
     #this is the rate the amplitude will increase by over
     down_value = .15
-    amplitude_down = np.linspace(1, down_value, 4*end_of_bar)
-    amplitude_up = np.linspace(down_value, 1, 4*end_of_bar)
+    amplitude_down = np.linspace(1, down_value, 2*end_of_beat)
+    amplitude_up = np.linspace(down_value, 1, 2*end_of_beat)
     #flag to determine if sound should be maintained
     left_up = False
     right_up = False
     left_maintain = False
     right_maintain = True
     i = 0
-    while i < length - 4*end_of_bar:
+    while i < length - 2*end_of_beat:
         #if left channel flagged to go up
         if left_up:
             #turn left up and turn right down
-            wav_stereo[0, i:i+(4*end_of_bar)] = wav_mono[i:i+(4*end_of_bar)]*amplitude_up
-            wav_stereo[1, i:i+(4*end_of_bar)] = wav_mono[i:i+(4*end_of_bar)]*amplitude_down
+            wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
+            wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
             #set left maintain flag
             left_maintain = True
             left_up = False
-            i += (4 * end_of_bar)
-
+            i += (2 * end_of_beat)
 
         #if right channel flagged to go up
         elif right_up:
             #turn up right and turn down left
-            wav_stereo[1, i:i+(4*end_of_bar)] = wav_mono[i:i+(4*end_of_bar)]*amplitude_up
-            wav_stereo[0, i:i+(4*end_of_bar)] = wav_mono[i:i+(4*end_of_bar)]*amplitude_down
+            wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
+            wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
             right_maintain = True
             right_up = False
-            i += (4 * end_of_bar)
+            i += (2 * end_of_beat)
 
         #if left channel flagged to stay constant
         elif left_maintain:
-            wav_stereo[0, i:i+end_of_bar] = wav_mono[i:i+end_of_bar]
-            wav_stereo[1, i:i+end_of_bar] = wav_mono[i:i+end_of_bar]*down_value
+            wav_stereo[0, i:i+end_of_beat] = wav_mono[i:i+end_of_beat]
+            wav_stereo[1, i:i+end_of_beat] = wav_mono[i:i+end_of_beat]*down_value
             left_maintain = False
             right_up = True
-            i += end_of_bar
+            i += end_of_beat
 
         #maintain right channel for 1 bar
         elif right_maintain:
-            wav_stereo[1, i:i + end_of_bar] = wav_mono[i:i + end_of_bar]
-            wav_stereo[0, i:i + end_of_bar] = wav_mono[i:i+end_of_bar]*down_value
+            wav_stereo[1, i:i + end_of_beat] = wav_mono[i:i + end_of_beat]
+            wav_stereo[0, i:i + end_of_beat] = wav_mono[i:i+end_of_beat]*down_value
             right_maintain = False
             left_up = True
-            i += end_of_bar
+            i += end_of_beat
 
-    wav_stereo[0, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
-    wav_stereo[1, (length//(4*end_of_bar))*(4*end_of_bar):] *= 0
+    wav_stereo[0, (length//(2*end_of_beat))*(2*end_of_beat):] *= 0
+    wav_stereo[1, (length//(2*end_of_beat))*(2*end_of_beat):] *= 0
     return wav_stereo
+
+'''
+This method uses the wrapper class pysox for Sox to add some effects to the song
+'''
+def add_effects():
+    tfm = sox.Transformer()
+    tfm.reverb(reverberance=65)
+    tfm.build('adventures_8D_test.wav', 'adventures_8D.wav')
+    return
 
 '''
 Just using this to compare plots of stereo channels for
@@ -133,7 +138,8 @@ if __name__ == '__main__':
     wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
     #wav = make_sigletone()
 
-    wav = rotate_left_right(wav_mono, wav_stereo, tempo)
+    wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
 
     os.chdir(path + '/sample_output')
-    save_song('adventures_8D.wav', wav, sampling_rate)
+    save_song('adventures_8D_rotate.wav', wav, sampling_rate)
+    add_effects()
