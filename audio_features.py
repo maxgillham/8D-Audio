@@ -1,11 +1,8 @@
 import librosa
 import os
+import sox
 import matplotlib.pyplot as plt
 import numpy as np
-import sox
-
-#from pysndfx import AudioEffectsChain
-
 
 #global path variable for loading and saving
 path = os.getcwd()
@@ -43,7 +40,7 @@ period after rising chanel.  Transitions are made every
 def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
     length = wav_mono.shape[0]
     #sample value that indicates transition
-    end_of_beat = int((tempo / 60) * sampling_rate)
+    end_of_beat = int((tempo / 120) * sampling_rate)
     #this is the rate the amplitude will increase by over
     down_value = .15
     amplitude_down = np.linspace(1, down_value, 2*end_of_beat)
@@ -61,8 +58,8 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
             wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
             wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
             #set left maintain flag
-            left_maintain = True
             left_up = False
+            left_maintain = True
             i += (2 * end_of_beat)
 
         #if right channel flagged to go up
@@ -70,16 +67,16 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
             #turn up right and turn down left
             wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
             wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
-            right_maintain = True
             right_up = False
+            right_maintain = True
             i += (2 * end_of_beat)
 
         #if left channel flagged to stay constant
         elif left_maintain:
             wav_stereo[0, i:i+end_of_beat] = wav_mono[i:i+end_of_beat]
             wav_stereo[1, i:i+end_of_beat] = wav_mono[i:i+end_of_beat]*down_value
-            left_maintain = False
             right_up = True
+            left_maintain = False
             i += end_of_beat
 
         #maintain right channel for 1 bar
@@ -97,10 +94,11 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
 '''
 This method uses the wrapper class pysox for Sox to add some effects to the song
 '''
-def add_effects():
+def add_effects(input):
     tfm = sox.Transformer()
-    tfm.reverb(reverberance=65)
-    tfm.build('adventures_8D_test.wav', 'adventures_8D.wav')
+    #tfm.reverb(reverberance=35)
+    tfm.treble(gain_db=-20, slope=.3)
+    tfm.build(input, 'effectz.wav')
     return
 
 '''
@@ -129,17 +127,15 @@ Method of sin wav to figure out some channel positioning for left, right, up and
 I would not reccomend listening to this for fun, its very, very annoying
 '''
 def make_sigletone():
-    return np.column_stack((.2*np.sin(164*np.linspace(0, 1000000, 1000000)), .2*np.sin(164*np.linspace(0, 1000000, 1000000)))).T
+    return np.column_stack((.5*np.sin(.05*np.linspace(0, 1000000, 1000000)), .5*np.sin(.05*np.linspace(0, 1000000, 1000000)))).T
 
 if __name__ == '__main__':
     os.chdir(path + '/sample_audio')
     file_name = os.listdir()
 
-    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('adventures.wav')
-    #wav = make_sigletone()
-
+    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features(file_name[0])
     wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
 
     os.chdir(path + '/sample_output')
-    save_song('adventures_8D_rotate.wav', wav, sampling_rate)
-    add_effects()
+    save_song('in_1.wav', wav, sampling_rate)
+    add_effects('in_1.wav')
