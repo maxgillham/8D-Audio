@@ -37,20 +37,19 @@
       <div class="container">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <form method="post" enctype="multipart/form-data">
-                <input type="file" id="files" name="files" multiple="multiple" />
-                <center>
-                <p style="text-align: right; margin-top: 20px;">
-                    <input type="submit" value="Convert to 8D" class="btn btn-lg btn-primary" />
-                  </p>
-                </center>
-                </form>
+          <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+              <strong>Files:</strong><br>
+              <input id="file-picker" type="file" name="file" accept="songs/*" multiple>
+              <div id="msg"></div>
+              <input type="submit" value="Upload!" id="upload-button">
+          </form>
               </div>
 
             </div>
 
             </div>
-            <a href="static/effectz.wav" class="btn btn-lg btn-primary">
+            <a href="sample_output/effectz.wav" class="btn btn-lg btn-primary">
               <span>Listen Now</span>
 
 
@@ -62,17 +61,35 @@
             <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 
             <script type="text/javascript">
-            jQuery(function ($) {
-              $("#files").shieldUpload();
-            });
+
             $.ajax({
   type: "POST",
-  url: $SCRIPT_ROOT + "/static/effectz.wav",
+  url: $SCRIPT_ROOT + "/sample_output/effectz.wav",
+
 
 });
 
 
           </script>
+          <script>
+    $("#file-picker").change(function(){
+        var input = document.getElementById('file-picker');
+        for (var i=0; i<input.files.length; i++)
+        {
+        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+            if ((ext == 'wav') || (ext == 'mp3'))
+            {
+                $("#msg").text("Files are supported")
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                document.getElementById("file-picker").value ="";
+            }
+        }
+    } );
+</script>
     </body>
 
 </html>
