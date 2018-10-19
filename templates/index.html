@@ -54,6 +54,11 @@
 
 
           </a>
+          <a href="sample_output/effectz.wav", class="audio">
+            <audio controls>
+            <source src="/sample_output/effectz.wav">
+            </audio>
+          </a>
             </center>
 
           <!-- you need to include the ShieldUI CSS and JS assets in order for the Upload widget to work -->
@@ -64,14 +69,13 @@
 
             $.ajax({
   type: "POST",
-  url: $SCRIPT_ROOT + "/sample_output/effectz.wav",
+  url: $SCRIPT_ROOT + "/sample_output/",
 
 
 });
 
 
-          </script>
-          <script>
+
     $("#file-picker").change(function(){
         var input = document.getElementById('file-picker');
         for (var i=0; i<input.files.length; i++)

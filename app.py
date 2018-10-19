@@ -40,7 +40,7 @@ def upload():
     return render_template('index.html')
 
 
-@app.route('/sample_output/')
+@app.route('/sample_output/effectz.wav')
 def download_file():
     return send_file('/sample_output/effectz.wav')
 
