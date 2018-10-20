@@ -96,8 +96,9 @@ This method uses the wrapper class pysox for Sox to add some effects to the song
 '''
 def add_effects(input):
     tfm = sox.Transformer()
-    #tfm.reverb(reverberance=35)
-    tfm.treble(gain_db=-20, slope=.3)
+    tfm.reverb(reverberance=75)
+    tfm.treble(gain_db=5, slope=.3)
+    tfm.bass(gain_db=5, slope=0.3)
     tfm.build(input, 'effectz.wav')
     return
 
@@ -128,14 +129,3 @@ I would not reccomend listening to this for fun, its very, very annoying
 '''
 def make_sigletone():
     return np.column_stack((.5*np.sin(.05*np.linspace(0, 1000000, 1000000)), .5*np.sin(.05*np.linspace(0, 1000000, 1000000)))).T
-
-if __name__ == '__main__':
-    os.chdir(path + '/sample_audio')
-    file_name = os.listdir()
-
-    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features(file_name[0])
-    wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
-
-    os.chdir(path + '/sample_output')
-    save_song('in_1.wav', wav, sampling_rate)
-    add_effects('in_1.wav')

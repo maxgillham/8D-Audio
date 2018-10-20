@@ -41,11 +41,11 @@
 
               <strong>Files:</strong><br>
               <input id="file-picker" type="file" name="file" accept="songs/*" multiple>
-              <div id="msg"></div>
+
               <input type="submit" value="Upload!" id="upload-button">
           </form>
-          <a href = "/listen">
-          <button type="button", action="{{ url_for('listen') }}", method="POST">Click Me!</button>
+        <a href = "/listen">
+          <button type="button", action="{{ url_for('listen') }}", method="POST">listen</button>
         </a>
 
             </div>
@@ -61,12 +61,6 @@
 
             <script type="text/javascript">
 
-            $.ajax({
-  type: "POST",
-  url: $SCRIPT_ROOT + "/sample_output/",
-
-
-});
 
 
 
