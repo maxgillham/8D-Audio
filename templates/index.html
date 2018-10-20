@@ -35,7 +35,7 @@
 
 
       <div class="container">
-        <div class="col-md-4"></div>
+
         <div class="col-md-4">
           <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
 
@@ -44,21 +44,15 @@
               <div id="msg"></div>
               <input type="submit" value="Upload!" id="upload-button">
           </form>
-              </div>
+          <a href = "/listen">
+          <button type="button", action="{{ url_for('listen') }}", method="POST">Click Me!</button>
+        </a>
 
             </div>
 
             </div>
-            <a href="sample_output/effectz.wav" class="btn btn-lg btn-primary">
-              <span>Listen Now</span>
 
 
-          </a>
-          <a href="sample_output/effectz.wav", class="audio">
-            <audio controls>
-            <source src="/sample_output/effectz.wav">
-            </audio>
-          </a>
             </center>
 
           <!-- you need to include the ShieldUI CSS and JS assets in order for the Upload widget to work -->
