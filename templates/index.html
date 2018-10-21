@@ -45,7 +45,7 @@
               <input type="submit" value="Upload!" id="upload-button">
           </form>
         <a href = "/listen">
-          <button type="button", action="{{ url_for('listen') }}", method="POST">listen</button>
+          <button type="button", class="btn btn-primary", action="{{ url_for('listen') }}", method="POST">Listen Now!</button>
         </a>
 
             </div>
@@ -68,7 +68,6 @@
         var input = document.getElementById('file-picker');
         for (var i=0; i<input.files.length; i++)
         {
-        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
             var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
             if ((ext == 'wav') || (ext == 'mp3'))
             {
