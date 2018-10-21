@@ -13,7 +13,8 @@ To add effects chains to the songs such as reverb, you need [SoX](http://sox.sou
 
 `audio_features.py` is best used for when devoloping the signal processing. This script takes files in the first directory and saves them in the seccond.  
 * ./binary_audio/sample_audio
-* ./binary_audio/sample_output
+* ./binary_audio/sample_output  
+
 To run the flask app locally, `python app.py`.
 I have added an example file, it is a youtube not copy right song.  You can play with what I have started by dropping a wav file in sample_audio, or use the exapmple, and running `audio_features.py` or uploading in the flask app.  The result will be in sample_output or on the listening page.  To download another wav file to experiment with, you can use this site, [Save Clip Bro](https://www.saveclipbro.com/).
 
@@ -23,3 +24,4 @@ Currently, audio moves on horizontal plane with effects chain and is pretty clos
 * Left and right channel swapping to match song breakpoints (currently matches tempo)
 * Audio elevation swapping (varrying high and low pass filters)
 * Tune reverb and add additional effects using sox transformer
+* Make a nice looking UI
