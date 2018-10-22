@@ -11,9 +11,9 @@ The dependancies required to run the script are in `requirments.txt`.  This was 
 `pip install -r requirements.txt`  
 To add effects chains to the songs such as reverb, you need [SoX](http://sox.sourceforge.net/) installed on your computer.  If pysox, the wrapper class for SoX doesn't recognize SoX, make sure you add SoX to PATH in enviorment variables.  
 
-`audio_features.py` is best used for when devoloping the signal processing. This script takes files in the first directory and saves them in the seccond.  
+`audio_features.py` is best used for when devoloping the signal processing. This script was devoloped by taking files in the first directory and saves them in the seccond.  
 * ./binary_audio/sample_audio
-* ./binary_audio/sample_output  
+* ./binary_audio/static
 
 To run the flask app locally, `python app.py`.
 I have added an example file, it is a youtube not copy right song.  You can play with what I have started by dropping a wav file in sample_audio, or use the exapmple, and running `audio_features.py` or uploading in the flask app.  The result will be in sample_output or on the listening page.  To download another wav file to experiment with, you can use this site, [Save Clip Bro](https://www.saveclipbro.com/).
