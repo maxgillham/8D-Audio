@@ -22,6 +22,7 @@ I have added an example file, it is a youtube not copy right song.  You can play
 Currently, audio moves on horizontal plane with effects chain and is pretty close to achieving "8D" status.  The other properties I have noticed in this format of audio conversion that need to be introduced are  
 
 * Left and right channel swapping to match song breakpoints (currently matches tempo)
-* Audio elevation swapping (varrying high and low pass filters)
+* Audio elevation swapping (turning tone up and down, I think this can be done in SoX)
 * Tune reverb and add additional effects using sox transformer
-* Make a nice looking UI
+* Get temp file sharing to work with hosting on google cloud platform (maybe use google drive?)
+* Make a nice(r) looking UI
