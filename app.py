@@ -5,7 +5,10 @@ import os
 
 app = Flask(__name__)
 
+
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+TEMPLATES_AUTO_RELOAD = True
 
 
 
@@ -16,8 +19,8 @@ def convert_to_8D():
     wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features(file_name[0])
     wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
     os.chdir(APP_ROOT + '/static')
-    save_song('effectz.wav', wav, sampling_rate)
-    #add_effects('in.wav')
+    save_song('in.wav', wav, sampling_rate)
+    add_effects('in.wav')
     return
 
 def clear_directories():
@@ -71,4 +74,5 @@ def download_file():
     return send_file(APP_ROOT+ '/static/effectz.wav')
 
 if __name__ == '__main__':
-   app.run(debug = True)
+    TEMPLATES_AUTO_RELOAD = True
+    app.run(debug = True)
