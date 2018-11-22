@@ -55,7 +55,7 @@ def upload():
         file.save(destination)
 
     convert_to_8D()
-    return render_template('index.html')
+    return render_template('listen.html')
 
 @app.route('/listen')
 def listen():
