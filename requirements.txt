@@ -3,7 +3,6 @@ Click==7.0
 cycler==0.10.0
 decorator==4.3.0
 Flask==1.0.2
-ItsDangerous==1.0.0
 Jinja2==2.10
 joblib==0.12.5
 kiwisolver==1.0.1
