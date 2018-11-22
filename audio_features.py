@@ -96,7 +96,7 @@ This method uses the wrapper class pysox for Sox to add some effects to the song
 '''
 def add_effects(input):
     tfm = sox.Transformer()
-    tfm.reverb(reverberance=75)
+    tfm.reverb(reverberance=50)
     tfm.treble(gain_db=5, slope=.3)
     tfm.bass(gain_db=5, slope=0.3)
     tfm.build(input, 'effectz.wav')
