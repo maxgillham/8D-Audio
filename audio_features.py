@@ -45,32 +45,53 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
     down_value = .15
     amplitude_down = np.linspace(1, down_value, 2*end_of_beat)
     amplitude_up = np.linspace(down_value, 1, 2*end_of_beat)
+    #make a seccond up and down that move differently
+    amplitude_down_slower = np.logspace(1, down_value, 8*end_of_beat)
+    amplitude_up_slower = np.logspace(down_value, 1, 8*end_of_beat)
+
     #flag to determine if sound should be maintained
     left_up = False
     right_up = False
     left_maintain = False
     right_maintain = True
     i = 0
-    while i < length - 2*end_of_beat:
+    while i < length - 8*end_of_beat:
+        fast = np.random.choice([True, False])
         #if left channel flagged to go up
         if left_up:
-            #turn left up and turn right down
-            wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
-            wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
-            #set left maintain flag
-            left_up = False
-            left_maintain = True
-            i += (2 * end_of_beat)
+            if fast:
+                #turn left up and turn right down, with faster ramp
+                wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
+                wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
+                #set left maintain flag
+                left_up = False
+                left_maintain = True
+                i += (2 * end_of_beat)
+            else:
+                #turn left up and right down, with slower ramp
+                wav_stereo[0, i:i+(8*end_of_beat)] = wav_mono[i:i+(8*end_of_beat)]*amplitude_up_slower
+                wav_stereo[1, i:i+(8*end_of_beat)] = wav_mono[i:i+(8*end_of_beat)]*amplitude_down_slower
+                #set left maintain flag
+                left_up = False
+                left_maintain = True
+                i += (8 * end_of_beat)
 
         #if right channel flagged to go up
         elif right_up:
-            #turn up right and turn down left
-            wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
-            wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
-            right_up = False
-            right_maintain = True
-            i += (2 * end_of_beat)
-
+            if fast:
+                #turn up right and turn down left
+                wav_stereo[1, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_up
+                wav_stereo[0, i:i+(2*end_of_beat)] = wav_mono[i:i+(2*end_of_beat)]*amplitude_down
+                right_up = False
+                right_maintain = True
+                i += (2 * end_of_beat)
+            else:
+                #turn up right and turn down left
+                wav_stereo[1, i:i+(8*end_of_beat)] = wav_mono[i:i+(8*end_of_beat)]*amplitude_up_slower
+                wav_stereo[0, i:i+(8*end_of_beat)] = wav_mono[i:i+(8*end_of_beat)]*amplitude_down_slower
+                right_up = False
+                right_maintain = True
+                i += (8 * end_of_beat)
         #if left channel flagged to stay constant
         elif left_maintain:
             wav_stereo[0, i:i+end_of_beat] = wav_mono[i:i+end_of_beat]
@@ -87,8 +108,8 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
             left_up = True
             i += end_of_beat
 
-    wav_stereo[0, (length//(2*end_of_beat))*(2*end_of_beat):] *= 0
-    wav_stereo[1, (length//(2*end_of_beat))*(2*end_of_beat):] *= 0
+    wav_stereo[0, (length//(8*end_of_beat))*(8*end_of_beat):] *= 0
+    wav_stereo[1, (length//(8*end_of_beat))*(8*end_of_beat):] *= 0
     return wav_stereo
 
 '''
