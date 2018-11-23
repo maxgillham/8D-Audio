@@ -36,6 +36,16 @@ def clear_directories():
     os.chdir(APP_ROOT)
     return
 
+def maybe_make_dir():
+    dir = os.getcwd()
+    files = os.listdir()
+    print('before', os.getcwd())
+    print('files', files)
+    if '/sample_audo' not in files: os.mkdir('sample_audo')
+    if '/static' not in files: os.mkdir('static')
+    print('after', os.getcwd())
+    return
+
 #homepage
 @app.route('/')
 def index():
@@ -72,6 +82,8 @@ def reset():
 def download_file():
     print('\nhit download')
     return send_file(APP_ROOT+ '/static/effectz.wav')
+
+
 
 if __name__ == '__main__':
     TEMPLATES_AUTO_RELOAD = True
