@@ -4,6 +4,8 @@ import sox
 import matplotlib.pyplot as plt
 import numpy as np
 
+from scipy.signal import butter, lfilter
+
 #global path variable for loading and saving
 path = os.getcwd()
 
@@ -14,7 +16,7 @@ series, sampling rate and tempo
 def song_features(file_name):
 
     #waveform and sampleing rate
-    wav_mono, sampling_rate = librosa.load(file_name, duration=120)
+    wav_mono, sampling_rate = librosa.load(file_name, duration=10)
 
     #wavform and sampling rate, need wav stereo
     wav_stereo, sampling_rate = librosa.load(file_name, mono=False, duration=120)
@@ -46,8 +48,8 @@ def rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate):
     amplitude_down = np.linspace(1, down_value, 2*end_of_beat)
     amplitude_up = np.linspace(down_value, 1, 2*end_of_beat)
     #make a seccond up and down that move differently
-    amplitude_down_slower = np.logspace(1, down_value, 8*end_of_beat)
-    amplitude_up_slower = np.logspace(down_value, 1, 8*end_of_beat)
+    amplitude_down_slower = np.linspace(1, down_value, 8*end_of_beat)
+    amplitude_up_slower = np.linspace(down_value, 1, 8*end_of_beat)
 
     #flag to determine if sound should be maintained
     left_up = False
@@ -129,7 +131,7 @@ wav file generated in here and one produced by youtube channel
 '''
 def plot_stereo_balance(wav_1, wav_2):
     #make wav contents into numpy arrays
-    wav_1 = np.array(wav_1)
+    wav_1 = np.array(wav_1)    
     wav_2 = np.array(wav_2)
     #make x values for plotting, likely the same size
     x_1 = np.arange(0, wav_1.shape[1])
@@ -150,3 +152,35 @@ I would not reccomend listening to this for fun, its very, very annoying
 '''
 def make_sigletone():
     return np.column_stack((.5*np.sin(.05*np.linspace(0, 1000000, 1000000)), .5*np.sin(.05*np.linspace(0, 1000000, 1000000)))).T
+
+
+def butter_lowpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def butter_lowpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+if __name__ == '__main__':
+    wav_mono, wav_stereo, samp_rate, tempo, beat_frames = song_features('sample_audio/test.wav')
+    cut = np.linspace(5,15, len(wav_mono))
+    y = []
+    index = 0
+    for i in range(0, len(wav_mono)-10000, 10000):
+        order = 6
+        fs = 30.0
+        cutoff = cut[index]
+        index += 1
+        #if cutoff in range(5,10): cutoff +=.5
+        
+
+        y.extend(butter_lowpass_filter(wav_mono[i:i+10001], cutoff, fs, order))
+        #print(y)
+
+    print(y)
+    save_song('idc', np.array(y), samp_rate)
+    #print(max(wav_mono), min(wav_mono))
