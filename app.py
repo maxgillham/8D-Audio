@@ -37,13 +37,9 @@ def clear_directories():
     return
 
 def maybe_make_dir():
-    dir = os.getcwd()
     files = os.listdir()
-    print('before', os.getcwd())
-    print('files', files)
-    if '/sample_audo' not in files: os.mkdir('sample_audo')
-    if '/static' not in files: os.mkdir('static')
-    print('after', os.getcwd())
+    if 'sample_audio' not in files: os.mkdir('sample_audio')
+    if 'static' not in files: os.mkdir('static')
     return
 
 #homepage
@@ -78,13 +74,12 @@ def reset():
 
 
 @app.route('/static/effectz.wav')
-
 def download_file():
-    print('\nhit download')
     return send_file(APP_ROOT+ '/static/effectz.wav')
 
 
 
 if __name__ == '__main__':
+    maybe_make_dir()
     TEMPLATES_AUTO_RELOAD = True
     app.run(debug = True)
