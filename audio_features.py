@@ -16,7 +16,7 @@ series, sampling rate and tempo
 def song_features(file_name):
 
     #waveform and sampleing rate
-    wav_mono, sampling_rate = librosa.load(file_name, duration=10)
+    wav_mono, sampling_rate = librosa.load(file_name, duration=120)
 
     #wavform and sampling rate, need wav stereo
     wav_stereo, sampling_rate = librosa.load(file_name, mono=False, duration=120)
@@ -119,7 +119,7 @@ This method uses the wrapper class pysox for Sox to add some effects to the song
 '''
 def add_effects(input):
     tfm = sox.Transformer()
-    tfm.reverb(reverberance=50)
+    tfm.reverb(reverberance=25)
     tfm.treble(gain_db=5, slope=.3)
     tfm.bass(gain_db=5, slope=0.3)
     tfm.build(input, 'effectz.wav')
@@ -160,27 +160,58 @@ def butter_lowpass(cutoff, fs, order=5):
     b, a = butter(order, normal_cutoff, btype='low', analog=False)
     return b, a
 
+
 def butter_lowpass_filter(data, cutoff, fs, order=5):
     b, a = butter_lowpass(cutoff, fs, order=order)
     y = lfilter(b, a, data)
     return y
 
-if __name__ == '__main__':
-    wav_mono, wav_stereo, samp_rate, tempo, beat_frames = song_features('sample_audio/test.wav')
-    cut = np.linspace(5,15, len(wav_mono))
-    y = []
-    index = 0
-    for i in range(0, len(wav_mono)-10000, 10000):
-        order = 6
-        fs = 30.0
-        cutoff = cut[index]
-        index += 1
-        #if cutoff in range(5,10): cutoff +=.5
+def butter_highpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='high', analog=False)
+    return b, a
+
+def butter_highpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+
+def elevation(wav_mono, tempo, sampling_rate):
+    length = len(wav_mono)
+    end_of_beat = int((tempo / 120) * sampling_rate)*2
+
+    order = 6
+    fs = 30.0
+    i = 1
+    y = np.empty(0)
+
+    low = True
+
+    while i < length:
+        #low pass filter with cutoff decreasing
+        cutoff = 10
+        y = np.append(y, butter_lowpass_filter(wav_mono[i:i+end_of_beat], cutoff, fs, order))
+        cutoff = 9.25
+        y = np.append(y, butter_lowpass_filter(wav_mono[i+end_of_beat-1:i+2*end_of_beat], cutoff, fs, order))
+        cutoff = 8.75
+        y = np.append(y, butter_lowpass_filter(wav_mono[i+2*end_of_beat-1:i+3*end_of_beat], cutoff, fs, order))
+        cutoff = 8
+        y = np.append(y, butter_lowpass_filter(wav_mono[i+3*end_of_beat-1:i+4*end_of_beat], cutoff, fs, order))
+
+        i += 4*end_of_beat
+
+        #high pass filter with cutoff increasing
+        cutoff = 8
+        y = np.append(y, butter_highpass_filter(wav_mono[i-1:i+end_of_beat], cutoff, fs, order))
+        cutoff = 8.75
+        y = np.append(y, butter_highpass_filter(wav_mono[i+end_of_beat-1:i+2*end_of_beat], cutoff, fs, order))
+        cutoff = 9.25
+        y = np.append(y, butter_highpass_filter(wav_mono[i+2*end_of_beat-1:i+3*end_of_beat], cutoff, fs, order))
+        cutoff = 10
+        y = np.append(y, butter_highpass_filter(wav_mono[i+3*end_of_beat-1:i+4*end_of_beat], cutoff, fs, order))
+
+        i += 4*end_of_beat
         
-
-        y.extend(butter_lowpass_filter(wav_mono[i:i+10001], cutoff, fs, order))
-        #print(y)
-
-    print(y)
-    save_song('idc', np.array(y), samp_rate)
-    #print(max(wav_mono), min(wav_mono))
+    return y
