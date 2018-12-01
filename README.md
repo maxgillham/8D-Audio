@@ -7,22 +7,23 @@ Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pret
 ![listen page](./img/listen_page.PNG)
 
 ## Getting Started  
-The dependancies required to run the script are in `requirments.txt`.  This was built using python 3.7.0 and pip 18.1, you can install the dependancies with the command  
+The dependancies required to run the script are in `requirments.txt`.  This was built using python 3.6.5, you can install the dependancies with the command  
 `pip install -r requirements.txt`  
-To add effects chains to the songs such as reverb, you need [SoX](http://sox.sourceforge.net/) installed on your computer.  If pysox, the wrapper class for SoX doesn't recognize SoX, make sure you add SoX to PATH in enviorment variables.  
+To add effects chains to the songs such as reverb, you need [SoX](http://sox.sourceforge.net/) installed on your computer. If you are on windows and pysox, the wrapper class for SoX doesn't recognize SoX, make sure you add SoX to PATH in enviorment variables. The web app also now has the funcitonality to download a song from youtube given a link. In order for this to run locally, you may also need ffprobe or avprobe. I use ffprobe, you can download it [here](https://www.ffmpeg.org/download.html).  
+The system architecture is as follows.  
+* `app.py` 
+  * This is the main script to launch the flask app
+* `audio_features.py
+  * This is the method containing all of the digital signal processing
+* `templates/.`
+  * These are the static webpages rendered in the flask app  
 
-`audio_features.py` is best used for when devoloping the signal processing. This script was devoloped by taking files in the first directory and saves them in the seccond.  
-* ./binary_audio/sample_audio
-* ./binary_audio/static
+To run the flask app locally, `python app.py`.  
 
-To run the flask app locally, `python app.py`.
-I have added an example file, it is a youtube not copy right song.  You can play with what I have started by dropping a wav file in sample_audio, or use the exapmple, and running `audio_features.py` or uploading in the flask app.  The result will be in sample_output or on the listening page.  To download another wav file to experiment with, you can use this site, [Save Clip Bro](https://www.saveclipbro.com/).
 
 ## What needs to be done   
-Currently, audio moves on horizontal plane with effects chain and is pretty close to achieving "8D" status.  The other properties I have noticed in this format of audio conversion that need to be introduced are  
+Currently, audio moves on horizontal plane and vertical plane with effects chain and is pretty close to achieving "8D" status.  Some other things I am wanting to approve:
 
-* Left and right channel swapping to match song breakpoints (currently matches tempo)
-* Audio elevation swapping (turning tone up and down, I think this can be done in SoX)
-* Tune reverb and add additional effects using sox transformer
+* Reduce loss in audio reconstruction from ifft when applying high and low pass filters
 * Get temp file sharing to work with hosting on google cloud platform (maybe use google drive?)
-* Make a nice(r) looking UI
+* Make a loading bar
