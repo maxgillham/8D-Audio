@@ -52,6 +52,11 @@
         </div>
         <div class="jumbotron jumbotron-fluid">
           <center>
+              <form action="{{ url_for('download_by_link') }}" method="POST">
+                  Link:<br>
+                  <input type="text" name="link"><br>
+                  <input type="submit" value="Convert Now!" id="upload-button">
+                </form>
           <div class="container">
             <p class="lead"> Checkout the <a href="https://github.com/maxgillham/binary_audio">GitHub Project</a></p>
           </div>
