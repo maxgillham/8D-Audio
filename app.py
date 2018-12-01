@@ -1,8 +1,8 @@
 from flask import *
-from audio_features import song_features, rotate_left_right, elevation, add_effects, save_song
+from audio_features import *
 import os
 import numpy as np
-
+import json
 
 app = Flask(__name__)
 
@@ -77,6 +77,12 @@ def reset():
 def download_file():
     return send_file(APP_ROOT+ '/static/effectz.wav')
 
+@app.route('/download_by_link', methods=['POST'])
+def download_by_link():
+    clear_directories()
+    download_from_youtube(request.values['link'])
+    convert_to_8D()
+    return render_template('listen.html')
 
 
 if __name__ == '__main__':
