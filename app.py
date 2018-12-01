@@ -19,13 +19,13 @@ def convert_to_8D():
 
     wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features(file_name[0])
     wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
-    l = elevation(wav[0,:], tempo, sampling_rate)
-    r = elevation(wav[1,:], tempo, sampling_rate)
-    y = np.stack((l,r))
+    #l = elevation(wav[0,:], tempo, sampling_rate)
+    #r = elevation(wav[1,:], tempo, sampling_rate)
+    #y = np.stack((l,r))
     os.chdir(APP_ROOT + '/static')
-    save_song('in.wav', y, sampling_rate)
+    save_song('in.wav', wav, sampling_rate)
     add_effects('in.wav')
-    return
+    return 
 
 def clear_directories():
     os.chdir(APP_ROOT + '/sample_audio')
@@ -49,11 +49,11 @@ def maybe_make_dir():
 #homepage
 @app.route('/')
 def index():
-    #clear_directories()
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    print('\nHIT UPLOAD')
     target = os.path.join(APP_ROOT, 'sample_audio/')
 
     if not os.path.isdir(target):
@@ -67,13 +67,8 @@ def upload():
     convert_to_8D()
     return render_template('listen.html')
 
-@app.route('/listen')
-def listen():
-    return render_template('listen.html')
-
 @app.route('/reset')
 def reset():
-    #clear_directories()
     return render_template('index.html')
 
 
