@@ -3,6 +3,7 @@ import os
 import sox
 import matplotlib.pyplot as plt
 import numpy as np
+import youtube_dl
 
 from scipy.signal import butter, lfilter
 
@@ -153,13 +154,15 @@ I would not reccomend listening to this for fun, its very, very annoying
 def make_sigletone():
     return np.column_stack((.5*np.sin(.05*np.linspace(0, 1000000, 1000000)), .5*np.sin(.05*np.linspace(0, 1000000, 1000000)))).T
 
-
+'''
+These methods concern applying high and low passfilters to resemble a sense
+of audio elevation
+'''
 def butter_lowpass(cutoff, fs, order=5):
     nyq = 0.5 * fs
     normal_cutoff = cutoff / nyq
     b, a = butter(order, normal_cutoff, btype='low', analog=False)
     return b, a
-
 
 def butter_lowpass_filter(data, cutoff, fs, order=5):
     b, a = butter_lowpass(cutoff, fs, order=order)
@@ -215,3 +218,24 @@ def elevation(wav_mono, tempo, sampling_rate):
         i += 4*end_of_beat
         
     return y
+
+'''
+Util to download the audio for a given youtube url
+'''
+def download_from_youtube(url):
+    ydl_opts = {
+        'outtmpl': 'sample_audio/test.wav',
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'wav',
+            'preferredquality': '192',
+        }],
+    }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+    return
+
+if __name__ == '__main__':
+    download_from_youtube('https://www.youtube.com/watch?v=E5pojx6kflw')
+
