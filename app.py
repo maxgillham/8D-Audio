@@ -23,8 +23,8 @@ def convert_to_8D():
     r = elevation(wav[1,:], tempo, sampling_rate)
     y = np.stack((l,r))
     os.chdir(APP_ROOT + '/static')
-    save_song('in.wav', y, sampling_rate)
-    add_effects('in.wav')
+    save_song('test.wav', y, sampling_rate)
+    add_effects('test.wav')
     return
 
 def clear_directories():
@@ -65,7 +65,10 @@ def upload():
         file.save(destination)
 
     convert_to_8D()
-    return render_template('listen.html')
+ 
+    
+    #render_template('listen.html')
+    return render_template('index.html')
 
 @app.route('/listen')
 def listen():
@@ -84,6 +87,6 @@ def download_file():
 
 
 if __name__ == '__main__':
-    maybe_make_dir()
+    #maybe_make_dir()
     TEMPLATES_AUTO_RELOAD = True
     app.run(debug = True)
