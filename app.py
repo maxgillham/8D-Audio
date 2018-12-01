@@ -18,7 +18,8 @@ def convert_to_8D():
     file_name = os.listdir()
 
     wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features(file_name[0])
-    wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
+    wav_mono_elevated = elevation(wav_mono, tempo, sampling_rate)
+    wav = rotate_left_right(wav_mono_elevated, wav_stereo, tempo, sampling_rate)
     #l = elevation(wav[0,:], tempo, sampling_rate)
     #r = elevation(wav[1,:], tempo, sampling_rate)
     #y = np.stack((l,r))
@@ -80,5 +81,6 @@ def download_file():
 
 if __name__ == '__main__':
     maybe_make_dir()
-    TEMPLATES_AUTO_RELOAD = True
+    app.jinja_env.auto_reload = True
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug = True)
