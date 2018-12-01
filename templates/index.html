@@ -25,28 +25,20 @@
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-3">8D Audio</h1>
-          <p class="lead">Pick your song and downlod it using <a href="https://www.saveclipbro.com/">Save Clip Bro.</a></p>
-          <p class="lead">Upload your file below.</p>
+          <p class="lead">Pick your song from <a href="www.youtube.com">YouTube</a></p>
+       
         </div>
-
-
-
-
 
 
       <div class="container">
 
         <div class="col-md-4">
-          <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-
-              <strong>Files:</strong><br>
-              <input id="file-picker" type="file" name="file" accept="songs/*" multiple>
-
-              <input type="submit" value="Convert Now!" id="upload-button">
+          
+          <form action="{{ url_for('download_by_link') }}" method="POST">
+            Enter YouTube Link Here:<br>
+            <input type="text" name="link"><br>
+            <input type="submit" value="Convert Now!" id="upload-button">
           </form>
-          <a href = "/listen">
-            <button type="button", class="btn btn-primary", action="{{ url_for('listen') }}", method="POST">Listen Now!</button>
-          </a>
           </div>
  
             </center>
@@ -54,11 +46,7 @@
         </div>
         <div class="jumbotron jumbotron-fluid">
           <center>
-              <form action="{{ url_for('download_by_link') }}" method="POST">
-                  Link:<br>
-                  <input type="text" name="link"><br>
-                  <input type="submit" value="Convert Now!" id="upload-button">
-                </form>
+       
           <div class="container">
             <p class="lead"> Checkout the <a href="https://github.com/maxgillham/binary_audio">GitHub Project</a></p>
           </div>
@@ -72,22 +60,6 @@
             <script type="text/javascript">
 
 
-    $("#file-picker").change(function(){
-        var input = document.getElementById('file-picker');
-        for (var i=0; i<input.files.length; i++)
-        {
-            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
-            if ((ext == 'wav') || (ext == 'mp3'))
-            {
-                $("#msg").text("Files are supported")
-            }
-            else
-            {
-                $("#msg").text("Files are NOT supported")
-                document.getElementById("file-picker").value ="";
-            }
-        }
-    } );
 </script>
     </body>
 
