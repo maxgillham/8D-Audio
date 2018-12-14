@@ -25,15 +25,12 @@ def convert_to_8D():
     return 
 
 def clear_directories():
-    os.chdir(APP_ROOT + '/sample_audio')
-    files = os.listdir()
-    for file in files:
-        os.remove(file)
-    os.chdir(APP_ROOT + '/static')
-    files = os.listdir()
-    for file in files:
-        os.remove(file)
-    os.chdir(APP_ROOT)
+    if os.path.exists(APP_ROOT + '/sample_audio/test.wav'):
+        os.remove(APP_ROOT + '/sample_audio/test.wav')
+    if os.path.exists(APP_ROOT + '/static/effectz.wav'):
+        os.remove(APP_ROOT + '/static/effectz.wav')
+    if os.path.exists(APP_ROOT + '/static/in.wav'):
+        os.remove(APP_ROOT + '/static/in.wav')
     return
 
 def maybe_make_dir():
@@ -45,6 +42,7 @@ def maybe_make_dir():
 #homepage
 @app.route('/')
 def index():
+    os.chdir(APP_ROOT)
     return render_template('index.html')
 
 @app.route('/static/effectz.wav')
@@ -60,7 +58,6 @@ def download_by_link():
 
 
 if __name__ == '__main__':
-    maybe_make_dir()
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug = True)
