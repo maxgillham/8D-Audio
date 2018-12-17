@@ -17,10 +17,10 @@ series, sampling rate and tempo
 def song_features(file_name):
 
     #waveform and sampleing rate
-    wav_mono, sampling_rate = librosa.load(file_name, duration=120)
+    wav_mono, sampling_rate = librosa.load(file_name)
 
     #wavform and sampling rate, need wav stereo
-    wav_stereo, sampling_rate = librosa.load(file_name, mono=False, duration=120)
+    wav_stereo, sampling_rate = librosa.load(file_name, mono=False)
 
     #tempo and beatframes
     tempo, beat_frames = librosa.beat.beat_track(y=wav_stereo[0], sr=sampling_rate)
@@ -123,7 +123,7 @@ def add_effects(input):
     tfm.reverb(reverberance=25)
     tfm.treble(gain_db=5, slope=.3)
     tfm.bass(gain_db=5, slope=0.3)
-    tfm.build(input, 'effectz.wav')
+    tfm.build(input, './static/effectz.wav')
     return
 
 '''
@@ -132,7 +132,7 @@ wav file generated in here and one produced by youtube channel
 '''
 def plot_stereo_balance(wav_1, wav_2):
     #make wav contents into numpy arrays
-    wav_1 = np.array(wav_1)    
+    wav_1 = np.array(wav_1)
     wav_2 = np.array(wav_2)
     #make x values for plotting, likely the same size
     x_1 = np.arange(0, wav_1.shape[1])
@@ -216,7 +216,7 @@ def elevation(wav_mono, tempo, sampling_rate):
         y = np.append(y, butter_highpass_filter(wav_mono[i+3*end_of_beat-1:i+4*end_of_beat], cutoff, fs, order))
 
         i += 4*end_of_beat
-        
+
     return y
 
 '''
@@ -224,7 +224,7 @@ Util to download the audio for a given youtube url
 '''
 def download_from_youtube(url):
     ydl_opts = {
-        'outtmpl': 'sample_audio/test.wav',
+        'outtmpl': 'static/test.wav',
         'format': 'bestaudio/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -235,7 +235,3 @@ def download_from_youtube(url):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
     return
-
-if __name__ == '__main__':
-    download_from_youtube('https://www.youtube.com/watch?v=E5pojx6kflw')
-
