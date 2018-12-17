@@ -14,15 +14,12 @@ TEMPLATES_AUTO_RELOAD = True
 
 #when called turns the file in sample audio into 8d
 def convert_to_8D():
-    #os.chdir(APP_ROOT + '/sample_audio')
-    #file_name = os.listdir()
     #load song as time series
     wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('./static/test.wav')
     #elevate mono signal
     wav_mono_elevated = elevation(wav_mono, tempo, sampling_rate)
     #rotate stereo panning based off elevated signal
     wav = rotate_left_right(wav_mono_elevated, wav_stereo, tempo, sampling_rate)
-    #os.chdir(APP_ROOT + '/static')
     #save before SoX adds effects
     save_song('./static/in.wav', wav, sampling_rate)
     #apply SoX transformer
@@ -41,14 +38,12 @@ def clear_directories():
 
 def maybe_make_dir():
     files = os.listdir()
-    #if 'sample_audio' not in files: os.mkdir('sample_audio')
     if 'static' not in files: os.mkdir('static')
     return
 
 #homepage
 @app.route('/')
 def index():
-    os.chdir(APP_ROOT)
     return render_template('index.html')
 
 #to request to download song to local machine
@@ -61,7 +56,6 @@ def download_file():
 def download_by_link():
     #clear directories of previous songs
     clear_directories()
-    os.chdir(APP_ROOT)
     #downlaod the audio from the link given
     download_from_youtube(request.values['link'])
     #convert downloaded song in sample audio to 8d and save in static
