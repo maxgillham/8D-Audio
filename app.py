@@ -36,11 +36,6 @@ def clear_directories():
         os.remove(APP_ROOT + '/static/in.wav')
     return
 
-def maybe_make_dir():
-    files = os.listdir()
-    if 'static' not in files: os.mkdir('static')
-    return
-
 #homepage
 @app.route('/')
 def index():
@@ -54,14 +49,16 @@ def download_file():
 #route for when link is submitted
 @app.route('/download_by_link', methods=['POST'])
 def download_by_link():
-    #clear directories of previous songs
-    clear_directories()
-    #downlaod the audio from the link given
-    download_from_youtube(request.values['link'])
-    #convert downloaded song in sample audio to 8d and save in static
-    convert_to_8D()
-    #render listening page with audio controller setup to play the file saved by convert to 8d
-    return render_template('listen.html')
+    if request.values['link']:
+        #clear directories of previous songs
+        clear_directories()
+        #downlaod the audio from the link given
+        download_from_youtube(request.values['link'])
+        #convert downloaded song in sample audio to 8d and save in static
+        convert_to_8D()
+        #render listening page with audio controller setup to play the file saved by convert to 8d
+        return render_template('listen.html')
+    else: return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
