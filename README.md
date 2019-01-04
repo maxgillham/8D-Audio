@@ -13,7 +13,7 @@ To add effects chains to the songs such as reverb, you need [SoX](http://sox.sou
 The system architecture is as follows.  
 * `app.py` 
   * This is the main script to launch the flask app
-* `audio_features.py
+* `audio_features.py`
   * This is the method containing all of the digital signal processing
 * `templates/.`
   * These are the static webpages rendered in the flask app  
@@ -25,5 +25,5 @@ To run the flask app locally, `python app.py`.
 Currently, audio moves on horizontal plane and vertical plane with effects chain and is pretty close to achieving "8D" status.  Some other things I am wanting to approve:
 
 * Reduce loss in audio reconstruction from ifft when applying high and low pass filters
-* Get temp file sharing to work with hosting on google cloud platform (maybe use google drive?)
+* Investigate how to host this thing or alternativly, pack it up to a cross platform executable desktop application for Windows, macOS and Linux
 
