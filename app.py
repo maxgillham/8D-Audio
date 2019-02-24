@@ -17,10 +17,10 @@ def convert_to_8D():
     #rotate stereo panning based off elevated signal
     wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
     #save before SoX adds effects
-    save_song('./out/in.wav', wav, sampling_rate)
+    save_song('./out/effectz.wav', wav, sampling_rate)
     #apply SoX transformer
-    add_effects('./out/in.wav')
-    return
+    #add_effects('./out/in.wav')
+    return "Done Conversion"
 
 #wipe the previous songs, had issues when overwriting and webpage not properally reloading
 def clear_directories():
@@ -30,7 +30,7 @@ def clear_directories():
         os.remove(APP_ROOT + '/out/effectz.wav')
     if os.path.exists(APP_ROOT + '/out/in.wav'):
         os.remove(APP_ROOT + '/out/in.wav')
-    return
+    return "Done Path Clearing"
 
 #homepage
 @app.route('/')
@@ -43,17 +43,26 @@ def download_file():
     if os.path.exists(APP_ROOT + '/out/effectz.wav'): return send_file(APP_ROOT+ '/out/effectz.wav')
     return " "
 
+
 #route for when link is submitted
 @app.route('/convert', methods=['POST'])
 def convert():
-    #clear directories of previous songs
-    clear_directories()
-    #downlaod the audio from the link given
-    download_from_youtube(request.values['url'])
-    #convert downloaded song in sample audio to 8d and save out
-    convert_to_8D()
-    #render listening page with audio controller setup to play the file saved by convert to 8d
-    return 'done'
+    def long_time(url):
+        #clear directories of previous songs
+        clear_directories()
+        #downlaod the audio from the link given
+        yield download_from_youtube(url)
+        #convert downloaded song in sample audio to 8d and save out
+        wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('./out/test.wav')
+        yield "Loaded Song"
+        wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
+        yield "Rotation"
+        save_song('./out/effectz.wav', wav, sampling_rate)
+        yield "Saved to Path"
+        #add_effects('./out/in.wav')
+        yield "Added Reverb"
+        #render listening page with audio controller setup to play the file saved by convert to 8d
+    return Response(long_time(request.values['url']))
 
 if __name__ == '__main__':
     app.run(debug = True)
