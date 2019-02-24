@@ -16,7 +16,6 @@ $("#convert").click(function(){
     $.post( "/convert", {
     url: link
     }).done(function(){
-      $("#after_convert").getElementById("audioPlayer").load();
       $("#after_convert").css("display","block");
       $("#before_convert").removeClass("animated fadeIn");
       $("#after_convert").addClass("animated fadeIn");

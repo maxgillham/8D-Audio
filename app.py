@@ -49,8 +49,6 @@ def convert():
     #clear directories of previous songs
     clear_directories()
     #downlaod the audio from the link given
-    #url = request.form.to_dict()
-    print('\n\n\n\n', request.values['url'], '\n\n\n\n')
     download_from_youtube(request.values['url'])
     #convert downloaded song in sample audio to 8d and save out
     convert_to_8D()
