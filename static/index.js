@@ -28,6 +28,7 @@ $("#convert").click(function(){
 });
 
 $("#again").click(function(){
+    document.getElementById("playa").load()
     $(".input").css("display","block");
     $("#convert").css("display","block");
     $("#before_convert").css("display","block");
