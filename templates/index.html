@@ -1,112 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="#">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>8D Audio</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
-    <style>
-        .bot-padding {margin-bottom: 0.7rem}
-        .rght-padding {margin-right: 0.7rem}
-        .col-center {float: none;
-                     margin: 0 auto;}
-        .display-4 {font-size: 3rem}
-    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-    .loader {
-
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 16px solid #3498db;
-      width: 120px;
-      height: 120px;
-      -webkit-animation: spin 2s linear infinite; /* Safari */
-      animation: spin 2s linear infinite;
-    }
-
-    /* Safari */
-    @-webkit-keyframes spin {
-      0% { -webkit-transform: rotate(0deg); }
-      100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script>
-
-    $(document).ready(function(){
-       var myVar;
-     $( "#myDiv" ).click(function() {
-        myFunction(this);
-    });
-
-     function myFunction(div) {
-     $("#loader").toggle();
-     $(div).toggle();
-
-     }
-
-
-    });
-    </script>
-  </head>
-  <body>
-    <center>
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-3">8D Audio</h1>
-          <p class="lead">Pick your song from <a href="https://www.youtube.com/">YouTube</a></p>
-
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+    <div id="loading">
+        <div id="spinner"></div>
+    </div>
+    <div id="fork" class="animated fadeIn" style="animation-delay:3.4s;">
+        <i class="fab fa-github"></i>&nbsp; Fork it on GitHub
+    </div>
+    <div class="container animated fadeIn" style="animation-delay:3.5s;">
+        <div class="logo">8D <b>A</b>UDIO</div>
+        <div id="before_convert">
+            <input class="input" placeholder="youtube link here">
+            <button class="button" id="convert">Convert</button><br>
+            <h4 id="error"></h4>
+            <div id="spinner" style="display:none"></div>
         </div>
-
-
-      <div class="container">
-
-        <div class="col-md-4">
-
-          <form action="{{ url_for('download_by_link') }}" method="POST">
-            Enter YouTube Link Here:<br>
-            <input type="text" name="link", class="form-control"><br>
-            <input type="submit" value="Convert Now!" id="myDiv">
-            <div id="loader" style="display:none;padding:50px" class="loader"></div>
-
-          </form>
-
-
-
-
-          </div>
-
-
-
-
-          <div class="container">
-            <p class="lead"> Checkout the <a href="https://github.com/maxgillham/binary_audio">GitHub Project</a></p>
-
-
-
-        <img src="static/octocat.png", width="500", height="500", alt="OCTOCAT">
-        </center>
-          <!-- you need to include the ShieldUI CSS and JS assets in order for the Upload widget to work -->
-            <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
-            <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-
-            <script type="text/javascript">
-
-
-</script>
-    </body>
-
+        <div id="after_convert">
+            <audio id="audioPlayer" src="/out/effectz.wav" controls>
+            </audio><br>
+            <button class="button" id="again">Try Another?</button>
+        </div>
+    </div>
+    <div id="foot" class="animated fadeIn" style="animation-delay:3.6s;">
+        Development : <a href="https://github.com/maxgillham">@maxgillham</a><br>
+        Design : <a href="https://github.com/imfunniee">@imfunny</a>
+    </div>
+    <script type="text/javascript" src="/static/index.js"></script>
+</body>
 </html>

@@ -1,7 +1,6 @@
 import librosa
 import os
 import sox
-import matplotlib.pyplot as plt
 import numpy as np
 import youtube_dl
 
@@ -123,28 +122,7 @@ def add_effects(input):
     tfm.reverb(reverberance=25)
     tfm.treble(gain_db=5, slope=.3)
     tfm.bass(gain_db=5, slope=0.3)
-    tfm.build(input, './static/effectz.wav')
-    return
-
-'''
-Just using this to compare plots of stereo channels for
-wav file generated in here and one produced by youtube channel
-'''
-def plot_stereo_balance(wav_1, wav_2):
-    #make wav contents into numpy arrays
-    wav_1 = np.array(wav_1)
-    wav_2 = np.array(wav_2)
-    #make x values for plotting, likely the same size
-    x_1 = np.arange(0, wav_1.shape[1])
-    x_2 = np.arange(0, wav_2.shape[1])
-    #plot each channel
-    plt.subplot(121)
-    plt.scatter(x_1, wav_1[0, :], marker='.', c='b')
-    plt.scatter(x_1, wav_1[1, :], marker='.', c='g')
-    plt.subplot(122)
-    plt.scatter(x_2, wav_2[0, :], marker='.', c='r')
-    plt.scatter(x_2, wav_2[1, :], marker='.', c='k')
-    plt.show()
+    tfm.build(input, './out/effectz.wav')
     return
 
 '''
@@ -224,7 +202,7 @@ Util to download the audio for a given youtube url
 '''
 def download_from_youtube(url):
     ydl_opts = {
-        'outtmpl': 'static/test.wav',
+        'outtmpl': 'out/test.wav',
         'format': 'bestaudio/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',

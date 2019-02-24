@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css?family=Megrim|Roboto+Mono');
+
+body {
+    margin:0px;
+    padding:0px;
+    font-family: 'Roboto Mono', monospace;
+    background:linear-gradient(0deg,rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url("https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1550&q=80") center center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    width:100vw;
+    height:100vh;
+    color:#fff;
+    max-width:100vw;
+    max-height:100vh;
+    overflow:hidden;
+}
+
+#loading {
+    width:100vw;
+    height:100vh;
+    position:fixed;
+    z-index:99;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    top:0;
+    font-family: 'Megrim', cursive;
+    background:#000;
+}
+
+.container {
+    width:100vw;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+}
+
+#fork {
+    background:#fff;
+    color:#000;
+    padding:15px 20px;
+    width:40vw;
+    font-weight:bold;
+    text-align:center;
+    transform:rotate(-45deg);
+    position:absolute;
+    left:-15vw;
+    top:9vh;
+}
+
+#fork:hover {
+    cursor:pointer;
+}
+
+.logo {
+    font-family: 'Megrim', cursive;
+    font-size:120px;
+    color:#fff;
+    font-weight:bold;
+    margin:4vh auto;
+    transition:0.4s ease-in-out;
+}
+
+
+.logo b {
+    background: #FF4B2B;
+    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
+    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color: transparent;
+    background-size:500% 500% !important;
+    -webkit-animation: Gradient 20s ease infinite;
+    -moz-animation: Gradient 20s ease infinite;
+    -o-animation: Gradient 20s ease infinite;
+    animation: Gradient 20s ease infinite;
+}
+
+.input {
+    border:2px solid rgba(255,255,255,1);
+    background:transparent;
+    width:40vw;
+    margin:4vh auto;
+    padding:14px 40px;
+    border-radius:50px;
+    font-size:18px;
+    font-family: 'Roboto Mono', monospace;
+    color:#fff;
+    font-weight:bold;
+    transition:0.4s ease-in-out;
+    display:block;
+}
+
+.button {
+    border:2px solid rgba(255,255,255,1);
+    background:transparent;
+    margin:4vh auto;
+    padding:14px 40px;
+    border-radius:50px;
+    font-size:18px;
+    font-family: 'Roboto Mono', monospace;
+    color:#fff;
+    transition:0.4s ease-in-out;
+    font-weight:bold;
+}
+
+.button:hover {
+    color:#000;
+    background:#fff;
+    cursor:pointer;
+}
+
+.button:disabled {
+    color:#fff;
+    background:transparent;
+    cursor:default;
+}
+
+.input::placeholder {
+    color:#fff;
+}
+
+input,button:focus {
+    outline:none;
+}
+
+#after_convert {
+    display:none;
+}
+
+#spinner {
+    animation:rotate 1s infinite linear;
+    width:50px;
+    height:50px;
+    border:5px solid #fff;
+    border-bottom:5px solid transparent;
+    border-radius:50%;
+    margin:0px auto;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#foot {
+    position:fixed;
+    bottom:0;
+    width:92vw;
+    padding:5vh 4vw;
+    text-align:right;
+    font-weight:bold;
+    transition:0.4s ease-in-out;
+}
+#foot a {
+    background: #FF4B2B;
+    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
+    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color: transparent;
+    background-size:500% 500% !important;
+    -webkit-animation: Gradient 30s ease infinite;
+    -moz-animation: Gradient 30s ease infinite;
+    -o-animation: Gradient 30s ease infinite;
+    animation: Gradient 30s ease infinite;
+}
+
+@media (max-width: 980px){
+    body {
+        overflow-y:auto;
+    }
+    #fork {
+        position:relative;
+        transform:none;
+        left:0;
+        top:0;
+        width:100vw;
+        padding:20px 0px;
+    }
+    .logo {
+        font-size:80px;
+    }
+    .input {
+        width:70vw;
+        font-size:16px;
+    }
+    .button {
+        font-size:16px;
+    }
+    #foot {
+        text-align:center;
+        margin-top:5vh;
+    }
+}
+
+@-webkit-keyframes Gradient {
+0% {background-position: 0% 50%}
+50% {background-position: 100% 50%}
+100% {background-position: 0% 50%}
+}
+@-moz-keyframes Gradient {
+0% {background-position: 0% 50%}
+50% {background-position: 100% 50%}
+100% {background-position: 0% 50%}
+}
+@keyframes Gradient {
+0% {background-position: 0% 50%}
+50% {background-position: 100% 50%}
+100% {background-position: 0% 50%}
+}
