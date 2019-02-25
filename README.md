@@ -1,5 +1,5 @@
 # 8D Audio
-## Live on Heroku https://pure-hamlet-35684.herokuapp.com/
+## Try it out at www.8daudio.ca
 The inspiration for this project came from a series of YouTube videos I was
 shown, called [8D Audio](https://www.youtube.com/channel/UCrRpYEytIHGyDgNWO6VbHlQ/videos "Check it out!").  
 Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pretty neat. I think it would be cool to try and make a series of signal processing methods to make any song "8D Audio". This is what it looks like so far.
