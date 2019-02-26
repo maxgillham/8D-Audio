@@ -1,5 +1,5 @@
 # 8D Audio
-
+## Try it out at www.8daudio.ca
 The inspiration for this project came from a series of YouTube videos I was
 shown, called [8D Audio](https://www.youtube.com/channel/UCrRpYEytIHGyDgNWO6VbHlQ/videos "Check it out!").  
 Yeah, the name doesn't make a ton of sense, but anyways, I thought this was pretty neat. I think it would be cool to try and make a series of signal processing methods to make any song "8D Audio". This is what it looks like so far.
@@ -16,8 +16,11 @@ The system architecture is as follows.
 * `audio_features.py`
   * This is the method containing all of the digital signal processing
 * `templates/.`
-  * These are the static webpages rendered in the flask app  
-
+  * Webpage to be rendered
+* `static/`
+  * Folder used by flask to serve up `index.js` and `index.css` to webpage
+* `out/`
+  * A temp folder for storing audio files 
 To run the flask app locally, `python app.py`.  
 
 
@@ -25,5 +28,5 @@ To run the flask app locally, `python app.py`.
 Currently, audio moves on horizontal plane and vertical plane with effects chain and is pretty close to achieving "8D" status.  Some other things I am wanting to approve:
 
 * Reduce loss in audio reconstruction from ifft when applying high and low pass filters
-* Investigate how to host this thing or alternativly, pack it up to a cross platform executable desktop application for Windows, macOS and Linux
+
 
