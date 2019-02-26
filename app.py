@@ -57,11 +57,10 @@ def convert():
         yield "Loaded Song"
         wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
         yield "Rotation"
-        save_song('./out/effectz.wav', wav, sampling_rate)
+        save_song('./out/in.wav', wav, sampling_rate)
         yield "Saved to Path"
-        #add_effects('./out/in.wav')
+        add_effects('./out/in.wav')
         yield "Added Reverb"
-        #render listening page with audio controller setup to play the file saved by convert to 8d
     return Response(long_time(request.values['url']))
 
 if __name__ == '__main__':
