@@ -12,10 +12,6 @@ $("#convert").click(function(){
         $("#error").html("enter a valid youtube link");
         return;
     }
-    $(".input").css("display","none");
-    $(".input").val("");
-    $("#convert").css("display","none");
-    $("#spinner").css("display","block");
     // start converting here, convert(link)
     $.post( "/convert", {
     url: link
@@ -24,7 +20,13 @@ $("#convert").click(function(){
       $("#before_convert").removeClass("animated fadeIn");
       $("#after_convert").addClass("animated fadeIn");
       $("#before_convert").css("display","none");
+      $("#max").css("display", "none")
     });
+    $(".input").css("display","none");
+    $(".input").val("");
+    $("#convert").css("display","none");
+    $("#max").css("display", "block")
+    $("#spinner").css("display","inherit");
 });
 
 $("#again").click(function(){
@@ -48,7 +50,7 @@ function done() {
 
 $("#fork").click(function(){
     window.location.href = "https://github.com/maxgillham/8D-Audio";
-});
+})
 
 setTimeout(function(){
     $("#loading").addClass("animated fadeOut");

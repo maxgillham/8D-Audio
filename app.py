@@ -1,5 +1,5 @@
-from flask import *
-from audio_features import *
+from flask import Flask, render_template, Response, request, send_file
+from audio_features import song_features, download_from_youtube, rotate_left_right, save_song, add_effects
 import os
 import numpy as np
 import json
@@ -8,19 +8,6 @@ app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-#when called turns the file in sample audio into 8d
-def convert_to_8D():
-    #load song as time series
-    wav_mono, wav_stereo, sampling_rate, tempo, beat_frame = song_features('./out/test.wav')
-    #elevate mono signal - in beta until reconstruction is fixed
-    #wav_mono_elevated = elevation(wav_mono, tempo, sampling_rate)
-    #rotate stereo panning based off elevated signal
-    wav = rotate_left_right(wav_mono, wav_stereo, tempo, sampling_rate)
-    #save before SoX adds effects
-    save_song('./out/effectz.wav', wav, sampling_rate)
-    #apply SoX transformer
-    #add_effects('./out/in.wav')
-    return "Done Conversion"
 
 #wipe the previous songs, had issues when overwriting and webpage not properally reloading
 def clear_directories():

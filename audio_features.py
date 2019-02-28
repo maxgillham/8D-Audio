@@ -4,8 +4,6 @@ import sox
 import numpy as np
 import youtube_dl
 
-from scipy.signal import butter, lfilter
-
 #global path variable for loading and saving
 path = os.getcwd()
 
@@ -16,10 +14,10 @@ series, sampling rate and tempo
 def song_features(file_name):
 
     #waveform and sampleing rate
-    wav_mono, sampling_rate = librosa.load(file_name)
+    wav_mono, sampling_rate = librosa.load(file_name, duration=270)
 
     #wavform and sampling rate, need wav stereo
-    wav_stereo, sampling_rate = librosa.load(file_name, mono=False)
+    wav_stereo, sampling_rate = librosa.load(file_name, mono=False, duration=270)
 
     #tempo and beatframes
     tempo, beat_frames = librosa.beat.beat_track(y=wav_stereo[0], sr=sampling_rate)
